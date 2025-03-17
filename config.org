@@ -1,0 +1,9 @@
+#+title: Literate Programming config
+#+description: My personal emacs config
+#+startup: showeverything
+#+OPTIONS: toc:2
+
+* table of contents :toc:
+- [[#stuff-to-load-first][Stuff to load first]]
+
+* Stuff to load first
