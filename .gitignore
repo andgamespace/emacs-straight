@@ -1,0 +1,39 @@
+# Emacs backup files
+*~
+\#*\#
+.\#*
+
+# Auto-save files
+auto-save-list/
+*.elc
+
+# Lock files
+*.lock
+
+# Org mode temporary files
+*.org~
+*.org_archive
+
+# Straight package management cache
+straight/build/
+straight/repos/
+
+# Elpaca package management cache (if using elpaca)
+elpaca/builds/
+elpaca/repos/
+
+# Tramp (remote file access) temporary files
+.tramp
+
+# Projectile project files
+.projectile
+.project
+custom.el
+.emacs.desktop.lock
+# Directory locals
+.dir-locals.el
+
+# Personal logs or temp files
+*.log
+*.tmp
+

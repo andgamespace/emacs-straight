@@ -1,31 +1,3 @@
-#+title: Literate Programming config
-#+description: My personal Literate emacs config
-#+startup: showeverything
-#+OPTIONS: toc:2
-
-* table of contents :toc:
-- [[#stuff-to-load-first][Stuff to load first]]
-  - [[#the-package-managerusing-straightel][The package manager(using straight.el)]]
-  - [[#set-custom-file][Set custom file]]
-- [[#use-package-enabling][use package enabling:]]
-- [[#lsp-bridge-my-lsp-of-choice][lsp bridge, My lsp of choice]]
-  - [[#additional-lsp-bridge-related-config-stuff][Additional lsp bridge related config stuff]]
-- [[#modern-org][Modern org]]
-  - [[#disable-ui-clutter][disable ui clutter]]
-- [[#set-font][Set font]]
-- [[#doom-themes][Doom themes]]
-  - [[#current-theme-at-a-glance][Current theme at a glance:]]
-- [[#vertico--friends][vertico + friends]]
-- [[#which-key][which key]]
-- [[#doom-modeline][Doom modeline]]
-- [[#setting-up-generalel][Setting up general.el]]
-  - [[#set-up-general-in-the-future][Set up general in the future?]]
-- [[#reload-config][Reload config]]
-- [[#setting-up-org-roam][setting up org roam]]
-
-* Stuff to load first
-** The package manager(using straight.el)
-#+begin_src emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -41,28 +13,15 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-#+end_src
-** Set custom file
-#+begin_src emacs-lisp
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror) ;; Load it if it exists, but don't throw an error if it's missing
-#+end_src
-* use package enabling:
-#+begin_src emacs-lisp
+
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
-#+end_src
 
-specifiy that org mode is already built into emacs
-#+begin_src emacs-lisp
 (straight-use-package '(org :type built-in))
-#+end_src
 
-* lsp bridge, My lsp of choice
-
-Source: This is from the official lsp bridge github repo, so I trust that it works, directly copying this was the first time that I got it working after so much frustration
-
-#+begin_src emacs-lisp
 (use-package yasnippet
   :ensure t
   :hook ((prog-mode . yas-minor-mode)
@@ -82,9 +41,7 @@ Source: This is from the official lsp bridge github repo, so I trust that it wor
             :build (:not compile))
   :init
   (global-lsp-bridge-mode))
-#+end_src
-** Additional lsp bridge related config stuff
-#+begin_src emacs-lisp
+
 (setq lsp-bridge-enable-diagnostic t) ;; Enable LSP-based diagnostics
 (setq lsp-bridge-enable-log nil   ;; Disable logging (for better performance)
       lsp-bridge-enable-diagnostics t  ;; Enable LSP diagnostics
@@ -93,11 +50,6 @@ Source: This is from the official lsp bridge github repo, so I trust that it wor
       lsp-bridge-enable-hover-diagnostic t  ;; Show diagnostics on hover
       lsp-bridge-enable-signature-help t)  ;; Show function signatures
 
-#+end_src
-* Modern org
-org mode decorations
-
-#+begin_src emacs-lisp
 (use-package org-modern
   :ensure t
   :hook (org-mode . org-modern-mode)
@@ -168,9 +120,7 @@ org mode decorations
  ;; Org styling, hide markup etc.
 
 (global-org-modern-mode 1)
-#+end_src
 
-#+begin_src emacs-lisp
 ;; use-package with package.el:
 (use-package dashboard
   :ensure t
@@ -184,13 +134,7 @@ org mode decorations
 
   ;; To disable shortcut "jump" indicators for each section, set
   (setq dashboard-show-shortcuts nil))
-#+end_src
 
-things to consider in the future:
-Tangle out to many modules, and then load all of the modules at the end of my file.  How to do this:
-:tangle ~/.config/emacs-straight/init.el
-** disable ui clutter
-#+begin_src emacs-lisp
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -209,18 +153,10 @@ Tangle out to many modules, and then load all of the modules at the end of my fi
 (delete-selection-mode 1)         ;; Delete selected text when typing
 (setq-default transient-mark-mode t) ;; Highlight active region
 
-#+end_src
-
-
-* Set font
-#+begin_src emacs-lisp
 ;; Set default and fixed-pitch fonts to JetBrains Mono at height 180
 (set-face-attribute 'default nil :font "JetBrains Mono" :height 180)
 (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :height 180)
-#+end_src
-* Doom themes
-** Current theme at a glance:
-#+begin_src emacs-lisp
+
 (use-package doom-themes
   :ensure t
   :config
@@ -238,9 +174,7 @@ Tangle out to many modules, and then load all of the modules at the end of my fi
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
-#+end_src
-* vertico + friends
-#+begin_src emacs-lisp
+
 ;; Enable Vertico.
 (use-package vertico
   :straight t
@@ -421,10 +355,7 @@ Tangle out to many modules, and then load all of the modules at the end of my fi
   :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
-#+end_src
 
-* which key
-#+begin_src emacs-lisp
 (use-package which-key
   :straight t
   :init
@@ -441,9 +372,6 @@ Tangle out to many modules, and then load all of the modules at the end of my fi
    ("C-h k" . helpful-key)                ; Key documentation
    ("C-c C-d" . helpful-at-point)))       ; Documentation at point
 
-#+end_src
-* Doom modeline
-#+begin_src emacs-lisp
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
@@ -707,18 +635,10 @@ Tangle out to many modules, and then load all of the modules at the end of my fi
 ;; Hooks that run before/after the modeline version string is updated
 (setq doom-modeline-before-update-env-hook nil)
 (setq doom-modeline-after-update-env-hook nil)
-#+end_src
 
-
-
-
-
-#+begin_src emacs-lisp
 (global-set-key (kbd "C-s") 'consult-line) ;; Replaces default isearch with consult-line
 (global-set-key (kbd "C-c s r") 'consult-ripgrep)
-#+end_src
 
-#+begin_src emacs-lisp
 (use-package hydra
   :straight t)
 (defhydra hydra-search (:hint nil :exit t)
@@ -742,17 +662,8 @@ _q_: ❌ Quit
 ;; Bind the Hydra to a key, e.g., `C-c s`
 (global-set-key (kbd "C-c s") 'hydra-search/body)
 
-#+end_src
+;; (use-package general)
 
-* Setting up general.el
-** TODO Set up general in the future?
-#+begin_src emacs-lisp
-
- ;; (use-package general)
-
-#+end_src
-* Reload config
-#+begin_src emacs-lisp
 (defun my/restart-emacs ()
   "Save buffers, restart Emacs, and reload configuration."
   (interactive)
@@ -764,78 +675,3 @@ _q_: ❌ Quit
     (shell-command command))) ;; Relaunch Emacs
 
 (global-visual-line-mode 1)
-
-#+end_src
-* setting up org roam
-
-#+begin_src emacs-lisp
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory (file-truename "~/Documents/emacs/org")) ;; Change this path to your preferred location
-  (org-roam-completion-everywhere t) ;; Enable completion everywhere
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture))
-  :config
-  (org-roam-db-autosync-mode)) ;; Enable automatic database syncing
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package web-mode
-  :ensure t
-  :mode ("\\.tsx\\'" . web-mode)
-  :hook (web-mode . lsp-bridge-mode))
-(use-package python-mode
-  :ensure t
-  :hook (python-mode . lsp-bridge-mode))
-(use-package rust-mode
-  :ensure t
-  :hook (rust-mode . lsp-bridge-mode)
-  :config
-  (setq rust-format-on-save t))
-
-(use-package cargo
-  :ensure t
-  :hook (rust-mode . cargo-minor-mode))
-(use-package c++-mode
-  :hook (c++-mode . lsp-bridge-mode)
-  :config
-  (setq lsp-bridge-c-lsp-server "clangd"))  ;; Use clangd as the LSP server
-(use-package go-mode
-  :hook (go-mode . lsp-bridge-mode)
-  :config
-  (setq lsp-bridge-go-lsp-server "gopls"))
-
-(use-package java-mode
-  :hook (java-mode . lsp-bridge-mode)
-  :config
-  (setq lsp-bridge-java-lsp-server "jdtls"))
-
-(use-package vterm
-  :ensure t
-  :config
-  (setq vterm-max-scrollback 10000)) ;; Increase scrollback buffer
-(global-set-key (kbd "C-c t") 'vterm) ;; Open vterm easily
-
-
-#+end_src
-#+begin_src emacs-lisp
-(setq lsp-bridge-enable-completion-in-string t  ;; Enable completion inside strings
-      lsp-bridge-enable-hover-diagnostic t  ;; Show diagnostics on hover
-      lsp-bridge-enable-signature-help t  ;; Show function signatures
-      lsp-bridge-enable-auto-format-code t  ;; Auto-format on save
-      lsp-bridge-enable-diagnostics t  ;; Enable LSP-based diagnostics
-      lsp-bridge-enable-log nil  ;; Disable logging (for better performance)
-      lsp-bridge-enable-snippet t  ;; Allow LSP snippet completion
-      lsp-bridge-enable-inlay-hint t  ;; Show inlay hints (param names, etc.)
-      lsp-bridge-enable-rename t  ;; Enable symbol renaming
-      lsp-bridge-signature-show-function 'posframe) ;; Use posframe for signatures
-(global-set-key (kbd "M-.") 'lsp-bridge-find-def)    ;; Jump to definition
-(global-set-key (kbd "M-,") 'lsp-bridge-find-references) ;; Find references
-(global-set-key (kbd "M-?") 'lsp-bridge-popup-documentation) ;; Show documentation
-(global-set-key (kbd "C-c C-r") 'lsp-bridge-rename) ;; Rename symbol
-(global-set-key (kbd "C-c C-a") 'lsp-bridge-code-action) ;; Apply quick fixes
-
-#+end_src
